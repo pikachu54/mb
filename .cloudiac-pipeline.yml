@@ -1,0 +1,24 @@
+--- 
+version: 0.3
+
+apply:
+  steps:
+    - type: checkout
+      name: Checkout Code
+
+    - type: terraformInit
+      name: Terraform Init
+
+    - type: command
+      args: 
+        - echo Replacing !!!CLOUDIAC_USERNAME!!! with $CLOUDIAC_USERNAME in index.html
+        - sed 's/!!!CLOUDIAC_USERNAME!!!/'"$CLOUDIAC_USERNAME"'/g' index.template.html > index.html
+
+    - type: terraformPlan
+      name: "Terraform Plan"
+      
+    - type: terraformApply
+      name: Terraform Apply
+
+    - type: ansiblePlay
+      name: Run playbook
